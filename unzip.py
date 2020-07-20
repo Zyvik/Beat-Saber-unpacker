@@ -37,12 +37,18 @@ def rename_new_folders(file_list):
     for path in file_list:
         new_name = get_song_name(path)
         clean_name = clean_song_name(new_name)
-        os.rename(path, clean_name)  # Can throw an exception
+        try:
+            os.rename(path, clean_name)
+        except FileExistsError:
+            print(f'Directory {clean_name} already exists.')
 
 
 def remove_zip_files(file_list):
     for file in file_list:
-        os.remove(f"{file}.zip")
+        try:
+            os.remove(f"{file}.zip")
+        except FileNotFoundError:
+            pass
 
 
 def main():
